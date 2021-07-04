@@ -13,7 +13,33 @@ initMeetingServer(server);
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+//options for cors midddleware
+const options: cors.CorsOptions = {
+  allowedHeaders: [
+    'Origin',
+    'X-Requested-With',
+    'Content-Type',
+    'Accept',
+    'X-Access-Token',
+  ],
+  credentials: true,
+  methods: 'GET,HEAD,OPTIONS,PUT,PATCH,POST,DELETE',
+  origin: API_URL,
+  preflightContinue: false,
+};
+
+//use cors middleware
+router.use(cors(options));
+
+//add your routes
+
+//enable pre-flight
+router.options('*', cors(options));
+
+
+
+
+//app.use(cors());
 
 app.get('/echo', (req, res) => {
   res.send('Echo From server');
